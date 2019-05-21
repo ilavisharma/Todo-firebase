@@ -4,5 +4,5 @@
 - [ ] wire up firebase
 - [ ] display data from firebase
 - [ ] delete todos
-- [ ] Authentication via Firebase auth
+- [x] Authentication via Firebase auth
 - [ ] Store the todos in firebase
