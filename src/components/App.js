@@ -6,6 +6,16 @@ const App = () => {
   const [todos, updateTodos] = useState([]);
   const db = firebase.firestore();
 
+  const signIn = () => {
+    const provider = new firebase.auth.GoogleAuthProvider();
+
+    firebase
+      .auth()
+      .signInWithPopup(provider)
+      .then(result => console.log(result))
+      .catch(err => console.log('error' + err));
+  };
+
   useEffect(() => {
     db.collection('todos')
       .get()
@@ -22,6 +32,7 @@ const App = () => {
 
   return (
     <div>
+      <button onClick={signIn}>Sign In with google</button>
       <h1>To-Do List</h1>
       <TodoList todos={todos} />
     </div>
