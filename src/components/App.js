@@ -1,20 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import TodoList from './TodoList';
+import Navbar from './Navbar';
 import firebase from '../lib/firebase';
 
 const App = () => {
   const [todos, updateTodos] = useState([]);
   const db = firebase.firestore();
-
-  const signIn = () => {
-    const provider = new firebase.auth.GoogleAuthProvider();
-
-    firebase
-      .auth()
-      .signInWithPopup(provider)
-      .then(result => console.log(result))
-      .catch(err => console.log('error' + err));
-  };
 
   useEffect(() => {
     db.collection('todos')
@@ -32,7 +23,7 @@ const App = () => {
 
   return (
     <div>
-      <button onClick={signIn}>Sign In with google</button>
+      <Navbar />
       <h1>To-Do List</h1>
       <TodoList todos={todos} />
     </div>
