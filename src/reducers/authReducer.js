@@ -1,6 +1,7 @@
 const INITIAL_STATE = {
   isSignedIn: null,
-  uid: null
+  uid: null,
+  displayName: null
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -9,13 +10,15 @@ export default (state = INITIAL_STATE, action) => {
       return {
         ...state,
         isSignedIn: true,
-        uid: action.payload
+        uid: action.payload.uid,
+        displayName: action.payload.displayName
       };
     case 'SIGN_OUT':
       return {
         ...state,
         isSignedIn: false,
-        uid: null
+        uid: null,
+        displayName: null
       };
     default:
       return state;

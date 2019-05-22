@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { signIn, signOut } from '../actions';
 import firebase from '../lib/firebase';
@@ -10,7 +10,7 @@ const GoogleAuth = props => {
       .auth()
       .signInWithPopup(provider)
       .then(result => {
-        props.signIn(result.uid);
+        props.signIn(result.uid, result.user.displayName);
       })
       .catch(err => console.log('error' + err));
   };
@@ -18,7 +18,7 @@ const GoogleAuth = props => {
   // auth state listener
   firebase.auth().onAuthStateChanged(user => {
     if (user) {
-      props.signIn(user.uid);
+      props.signIn(user.uid, user.displayName);
     } else {
       props.signOut();
     }

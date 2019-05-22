@@ -23,7 +23,7 @@ const App = () => {
 
   const renderTodos = () => {
     if (todos === null) {
-      return <div class="ui active centered inline loader" />;
+      return <div className="ui active centered inline loader" />;
     } else {
       return <TodoList todos={todos} />;
     }

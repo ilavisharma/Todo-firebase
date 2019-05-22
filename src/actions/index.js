@@ -1,13 +1,15 @@
-export const signIn= (uid) => {
-    return {
-        type: 'SIGN_IN',
-        payload: uid
+export const signIn = (uid, displayName) => {
+  return {
+    type: 'SIGN_IN',
+    payload: {
+      uid,
+      displayName
     }
-}
+  };
+};
 
-export const signOut= () => {
-    return {
-        type: 'SIGN_OUT'
-    }
-}
-
+export const signOut = () => {
+  return {
+    type: 'SIGN_OUT'
+  };
+};
