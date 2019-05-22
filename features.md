@@ -3,7 +3,7 @@
 - [x] display todos compnent based ui
 - [x] wire up firebase
 - [x] display data from firebase
-- [ ] wire up redux
+- [x] wire up redux
 - [ ] move firebase to redux actions
 - [x] Authentication via Firebase auth
 - [ ] Store the todos in firebase
