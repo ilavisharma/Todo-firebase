@@ -4,7 +4,7 @@ import Navbar from './Navbar';
 import firebase from '../lib/firebase';
 
 const App = () => {
-  const [todos, updateTodos] = useState([]);
+  const [todos, updateTodos] = useState(null);
   const db = firebase.firestore();
 
   useEffect(() => {
@@ -12,8 +12,8 @@ const App = () => {
       .get()
       .then(snapshot => {
         snapshot.forEach(doc => {
-          const { todos } = doc.data();
-          updateTodos(todos);
+          const { todos: fetchedTodos } = doc.data();
+          updateTodos(fetchedTodos);
         });
       })
       .catch(err => {
@@ -21,11 +21,19 @@ const App = () => {
       });
   }, []);
 
+  const renderTodos = () => {
+    if (todos === null) {
+      return <div class="ui active centered inline loader" />;
+    } else {
+      return <TodoList todos={todos} />;
+    }
+  };
+
   return (
-    <div>
+    <div className="ui container">
       <Navbar />
       <h1>To-Do List</h1>
-      <TodoList todos={todos} />
+      {renderTodos()}
     </div>
   );
 };
