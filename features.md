@@ -1,8 +1,9 @@
 ## Features to be added
 
 - [x] display todos compnent based ui
-- [ ] wire up firebase
-- [ ] display data from firebase
-- [ ] delete todos
+- [x] wire up firebase
+- [x] display data from firebase
+- [ ] wire up redux
+- [ ] move firebase to redux actions
 - [x] Authentication via Firebase auth
 - [ ] Store the todos in firebase
