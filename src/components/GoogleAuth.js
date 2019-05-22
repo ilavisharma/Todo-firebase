@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { signIn, signOut } from '../actions';
 import firebase from '../lib/firebase';
+import Toast from '../lib/sweetAlert';
 
 const GoogleAuth = props => {
   const signInClick = () => {
@@ -11,6 +12,10 @@ const GoogleAuth = props => {
       .signInWithPopup(provider)
       .then(result => {
         props.signIn(result.uid, result.user.displayName);
+        Toast.fire({
+          type: 'success',
+          title: `Signed in as ${result.user.displayName}`
+        });
       })
       .catch(err => console.log('error' + err));
   };
@@ -30,7 +35,11 @@ const GoogleAuth = props => {
       .signOut()
       .then(() => {
         props.signOut();
-        alert('Sign out success');
+        // alert('Sign out success');
+        Toast.fire({
+          type: 'success',
+          title: 'Signed out successfully'
+        });
       })
       .catch(error => console.log(error));
   };
