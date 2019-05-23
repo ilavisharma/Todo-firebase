@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { signIn, signOut } from '../actions';
+import { signIn, signOut, fetchTodos } from '../actions';
 import firebase from '../lib/firebase';
 import Toast from '../lib/sweetAlert';
 
@@ -12,6 +12,8 @@ const GoogleAuth = props => {
       .signInWithPopup(provider)
       .then(result => {
         props.signIn(result.uid, result.user.displayName);
+        props.fetchTodos();
+
         Toast.fire({
           type: 'success',
           title: `Signed in as ${result.user.displayName}`
@@ -24,6 +26,7 @@ const GoogleAuth = props => {
   firebase.auth().onAuthStateChanged(user => {
     if (user) {
       props.signIn(user.uid, user.displayName);
+      props.fetchTodos();
     } else {
       props.signOut();
     }
@@ -69,11 +72,12 @@ const GoogleAuth = props => {
 
 const mapStateToProps = state => {
   return {
-    isSignedIn: state.auth.isSignedIn
+    isSignedIn: state.auth.isSignedIn,
+    uid: state.auth.uid
   };
 };
 
 export default connect(
   mapStateToProps,
-  { signIn, signOut }
+  { signIn, signOut, fetchTodos }
 )(GoogleAuth);

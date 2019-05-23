@@ -1,31 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import { connect } from 'react-redux';
 import TodoList from './TodoList';
 import Navbar from './Navbar';
-import firebase from '../lib/firebase';
+import { fetchTodos } from '../actions';
 
-const App = () => {
-  const [todos, updateTodos] = useState(null);
-  const db = firebase.firestore();
-
-  useEffect(() => {
-    db.collection('todos')
-      .get()
-      .then(snapshot => {
-        snapshot.forEach(doc => {
-          const { todos: fetchedTodos } = doc.data();
-          updateTodos(fetchedTodos);
-        });
-      })
-      .catch(err => {
-        console.log('Error getting documents', err);
-      });
-  }, []);
-
+const App = props => {
+  const todos = props.todos;
+  console.log(todos);
   const renderTodos = () => {
-    if (todos === null) {
+    if (!todos) {
       return <div className="ui active centered inline loader" />;
     } else {
-      return <TodoList todos={todos} />;
+      return <TodoList todos={todos.todos} />;
     }
   };
 
@@ -38,4 +24,14 @@ const App = () => {
   );
 };
 
-export default App;
+const mapStateToProps = state => {
+  return {
+    uid: state.auth.uid,
+    todos: state.todos
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  { fetchTodos }
+)(App);
