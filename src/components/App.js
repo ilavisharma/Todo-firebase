@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
+import firebase from '../lib/firebase';
 import TodoList from './TodoList';
 import Navbar from './Navbar';
 import { fetchTodos, addTodo } from '../actions';
 import { MySwal } from '../lib/sweetAlert';
 
 const App = props => {
-  const [input, changeInput] = useState('');
   const todos = props.todos;
 
   const checkAuth = () => {
@@ -20,6 +20,33 @@ const App = props => {
     }
   };
 
+  // Data change listener
+  const doc = firebase.firestore().collection('todos');
+  doc.onSnapshot(
+    () => props.fetchTodos(),
+    err => {
+      console.log(err);
+    }
+  );
+
+  const onButtonClick = async () => {
+    const { value: newInput } = await MySwal.fire({
+      title: 'Enter the new todo',
+      input: 'text',
+      inputValue: '',
+      showCancelButton: true,
+      inputValidator: value => {
+        if (!value) {
+          return 'You need to write something';
+        }
+      }
+    });
+
+    if (newInput) {
+      props.addTodo(newInput);
+    }
+  };
+
   const renderTodos = () => {
     if (!todos) {
       return <div className="ui active centered inline loader" />;
@@ -28,22 +55,11 @@ const App = props => {
     }
   };
 
-  const onButtonClick = () => {
-    props.addTodo(input);
-  };
-
   return (
     <div className="ui container">
       <Navbar />
       <h1>To-Do List</h1>
-      <input
-        type="text"
-        value={input}
-        onChange={e => changeInput(e.target.value)}
-      />
-      <button className="ui primary" onClick={onButtonClick}>
-        Add todo
-      </button>
+      <button onClick={onButtonClick}>Add Todo</button>
       {checkAuth()}
     </div>
   );

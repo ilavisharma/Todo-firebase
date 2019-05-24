@@ -27,9 +27,8 @@ export const fetchTodos = () => async (dispatch, getState) => {
       const doc = await docRef.get();
       if (!doc.exists) {
         // This is a new user
-        console.log('No such document found');
-        // create a blank array so that todos can be added further
         const { displayName, photoURL } = auth;
+        // create a blank array so that todos can be added further
         firestore
           .collection('todos')
           .doc(auth.uid)
@@ -39,7 +38,7 @@ export const fetchTodos = () => async (dispatch, getState) => {
           payload: []
         });
       } else {
-        // console.log(doc.data().todos);
+        // this is not a new user
         dispatch({
           type: 'FETCH_TODOS',
           payload: doc.data().todos
@@ -55,10 +54,9 @@ export const addTodo = todo => async (dispatch, getState) => {
   const { auth } = getState();
   try {
     const docRef = await firestore.collection('todos').doc(auth.uid);
-    const arrUnion = await docRef.update({
+    await docRef.update({
       todos: firebase.firestore.FieldValue.arrayUnion(todo)
     });
-    console.log(arrUnion);
     dispatch({
       type: 'ADD_TODO',
       payload: todo

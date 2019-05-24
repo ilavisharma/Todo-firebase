@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { signIn, signOut, fetchTodos } from '../actions';
 import firebase from '../lib/firebase';
-import { Toast } from '../lib/sweetAlert';
+import { Toast, MySwal } from '../lib/sweetAlert';
 
 const GoogleAuth = props => {
   const signInClick = () => {
@@ -14,12 +14,19 @@ const GoogleAuth = props => {
         props.signIn(result.uid, result.user.displayName, result.user.photoURL);
         props.fetchTodos();
 
-        Toast.fire({
+        MySwal.fire({
           type: 'success',
           title: `Signed in as ${result.user.displayName}`
         });
       })
-      .catch(err => console.log('error' + err));
+      .catch(err => {
+        console.log('error' + err);
+        MySwal.fire({
+          type: 'error',
+          title: 'Oops...',
+          text: `${err}`
+        });
+      });
   };
 
   // auth state listener
