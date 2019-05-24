@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { signIn, signOut, fetchTodos } from '../actions';
 import firebase from '../lib/firebase';
-import Toast from '../lib/sweetAlert';
+import { Toast } from '../lib/sweetAlert';
 
 const GoogleAuth = props => {
   const signInClick = () => {

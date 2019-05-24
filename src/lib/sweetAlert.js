@@ -10,4 +10,4 @@ const Toast = MySwal.mixin({
   timer: 2500
 });
 
-export default Toast;
+export { Toast, MySwal };

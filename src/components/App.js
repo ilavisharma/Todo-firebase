@@ -3,10 +3,23 @@ import { connect } from 'react-redux';
 import TodoList from './TodoList';
 import Navbar from './Navbar';
 import { fetchTodos } from '../actions';
+import { MySwal } from '../lib/sweetAlert';
 
 const App = props => {
   const todos = props.todos;
   console.log(todos);
+
+  const checkAuth = () => {
+    if (props.isSignedIn === null) {
+      return <div className="ui active centered inline loader" />;
+    } else if (props.isSignedIn === false) {
+      MySwal.fire('You need to sign in');
+      return <h1>No data available</h1>;
+    } else {
+      return renderTodos();
+    }
+  };
+
   const renderTodos = () => {
     if (!todos) {
       return <div className="ui active centered inline loader" />;
@@ -19,7 +32,7 @@ const App = props => {
     <div className="ui container">
       <Navbar />
       <h1>To-Do List</h1>
-      {renderTodos()}
+      {checkAuth()}
     </div>
   );
 };
@@ -27,6 +40,7 @@ const App = props => {
 const mapStateToProps = state => {
   return {
     uid: state.auth.uid,
+    isSignedIn: state.auth.isSignedIn,
     todos: state.todos
   };
 };
