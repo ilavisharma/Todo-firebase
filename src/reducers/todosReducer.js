@@ -5,6 +5,7 @@ export default (state = null, action) => {
         ...state,
         todos: action.payload
       };
+
     default:
       return state;
   }

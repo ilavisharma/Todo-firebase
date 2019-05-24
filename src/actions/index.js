@@ -21,12 +21,21 @@ export const signOut = () => {
 export const fetchTodos = () => async (dispatch, getState) => {
   const { auth } = getState();
   if (auth.isSignedIn) {
-    const docRef = firestore.collection('todos').doc(auth.uid);
-
     try {
+      const docRef = firestore.collection('todos').doc(auth.uid);
       const doc = await docRef.get();
       if (!doc.exists) {
+        // This is a new user
         console.log('No such document found');
+        // create a blank array so that todos can be added further
+        firestore
+          .collection('todos')
+          .doc(auth.uid)
+          .set({ todos: [] });
+        dispatch({
+          type: 'FETCH_TODOS',
+          payload: []
+        });
       } else {
         // console.log(doc.data().todos);
         dispatch({
@@ -37,5 +46,22 @@ export const fetchTodos = () => async (dispatch, getState) => {
     } catch (error) {
       console.log(error);
     }
+  }
+};
+
+export const addTodo = todo => async (dispatch, getState) => {
+  const { auth } = getState();
+  try {
+    const docRef = await firestore.collection('todos').doc(auth.uid);
+    const arrUnion = await docRef.update({
+      todos: firebase.firestore.FieldValue.arrayUnion(todo)
+    });
+    console.log(arrUnion);
+    dispatch({
+      type: 'ADD_TODO',
+      payload: todo
+    });
+  } catch (error) {
+    console.log(error);
   }
 };
