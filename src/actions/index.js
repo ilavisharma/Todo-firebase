@@ -2,12 +2,13 @@ import firebase from '../lib/firebase';
 
 const firestore = firebase.firestore();
 
-export const signIn = (uid, displayName) => {
+export const signIn = (uid, displayName, photoURL) => {
   return {
     type: 'SIGN_IN',
     payload: {
       uid,
-      displayName
+      displayName,
+      photoURL
     }
   };
 };
@@ -28,10 +29,11 @@ export const fetchTodos = () => async (dispatch, getState) => {
         // This is a new user
         console.log('No such document found');
         // create a blank array so that todos can be added further
+        const { displayName, photoURL } = auth;
         firestore
           .collection('todos')
           .doc(auth.uid)
-          .set({ todos: [] });
+          .set({ todos: [], photoURL, displayName });
         dispatch({
           type: 'FETCH_TODOS',
           payload: []

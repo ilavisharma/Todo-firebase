@@ -11,7 +11,7 @@ const GoogleAuth = props => {
       .auth()
       .signInWithPopup(provider)
       .then(result => {
-        props.signIn(result.uid, result.user.displayName);
+        props.signIn(result.uid, result.user.displayName, result.user.photoURL);
         props.fetchTodos();
 
         Toast.fire({
@@ -25,7 +25,7 @@ const GoogleAuth = props => {
   // auth state listener
   firebase.auth().onAuthStateChanged(user => {
     if (user) {
-      props.signIn(user.uid, user.displayName);
+      props.signIn(user.uid, user.displayName, user.photoURL);
       props.fetchTodos();
     } else {
       props.signOut();
@@ -38,7 +38,7 @@ const GoogleAuth = props => {
       .signOut()
       .then(() => {
         props.signOut();
-        // alert('Sign out success');
+        // alert for sign out;
         Toast.fire({
           type: 'success',
           title: 'Signed out successfully'
