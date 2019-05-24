@@ -4,6 +4,6 @@
 - [x] wire up firebase
 - [x] display data from firebase
 - [x] wire up redux
-- [ ] move firebase to redux actions
+- [x] move firebase to redux actions
 - [x] Authentication via Firebase auth
-- [ ] Store the todos in firebase
+- [x] Store the todos in firebase
