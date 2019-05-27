@@ -7,3 +7,4 @@
 - [x] move firebase to redux actions
 - [x] Authentication via Firebase auth
 - [x] Store the todos in firebase
+- [x] improve the ui
