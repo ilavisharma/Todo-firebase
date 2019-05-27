@@ -59,7 +59,12 @@ const App = props => {
     <div className="ui container">
       <Navbar />
       <h1>To-Do List</h1>
-      <button onClick={onButtonClick}>Add Todo</button>
+      <div className="ui animated button" onClick={onButtonClick}>
+        <div className="visible content">New Todo</div>
+        <div className="hidden content">
+          <i className="right arrow icon" />
+        </div>
+      </div>
       {checkAuth()}
     </div>
   );
