@@ -14,7 +14,7 @@ const GoogleAuth = props => {
         props.signIn(result.uid, result.user.displayName, result.user.photoURL);
         props.fetchTodos();
 
-        MySwal.fire({
+        Toast.fire({
           type: 'success',
           title: `Signed in as ${result.user.displayName}`
         });
