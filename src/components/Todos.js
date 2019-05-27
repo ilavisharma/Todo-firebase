@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
+import { deleteTodo } from '../actions';
 
-const Todos = ({ todo }) => {
+const Todos = props => {
+  const { todo } = props;
   const [iconColor, changeColor] = useState('');
 
   const handleCheck = () => {
-    console.log('handlecheck');
+    props.deleteTodo(todo);
   };
   return (
     <div
@@ -15,10 +18,11 @@ const Todos = ({ todo }) => {
       onMouseLeave={() => changeColor('')}
     >
       <i
+        onClick={handleCheck}
         className="check icon"
         style={{
           color: iconColor,
-          paddingRight: '15px'
+          paddingRight: '30px'
         }}
       />
       {todo}
@@ -26,4 +30,7 @@ const Todos = ({ todo }) => {
   );
 };
 
-export default Todos;
+export default connect(
+  null,
+  { deleteTodo }
+)(Todos);

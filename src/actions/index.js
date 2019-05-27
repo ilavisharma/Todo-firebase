@@ -65,3 +65,19 @@ export const addTodo = todo => async (dispatch, getState) => {
     console.log(error);
   }
 };
+
+export const deleteTodo = todo => async (dispatch, getState) => {
+  const { auth } = getState();
+  try {
+    const docRef = await firestore.collection('todos').doc(auth.uid);
+    await docRef.update({
+      todos: firebase.firestore.FieldValue.arrayRemove(todo)
+    });
+    dispatch({
+      type: 'DELETE_TODO',
+      payload: todo
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
